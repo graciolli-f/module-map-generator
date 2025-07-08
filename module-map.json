@@ -1,0 +1,1925 @@
+{
+  "analyzed": "2025-07-08T15:45:31.952Z",
+  "root": "/Users/mercury/Projects/Module-Map-Generator/test-repos/commander.js",
+  "moduleCount": 165,
+  "modules": {
+    "test-repos/commander.js/.prettierrc.js": {
+      "path": "test-repos/commander.js/.prettierrc.js",
+      "imports": [],
+      "exports": [
+        "config"
+      ],
+      "className": null
+    },
+    "test-repos/commander.js/eslint.config.js": {
+      "path": "test-repos/commander.js/eslint.config.js",
+      "imports": [
+        {
+          "source": "globals",
+          "type": "commonjs"
+        },
+        {
+          "source": "@eslint/js",
+          "type": "commonjs"
+        },
+        {
+          "source": "eslint-plugin-jest",
+          "type": "commonjs"
+        },
+        {
+          "source": "typescript-eslint",
+          "type": "commonjs"
+        },
+        {
+          "source": "eslint-config-prettier",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/action-this.js": {
+      "path": "test-repos/commander.js/examples/action-this.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/alias.js": {
+      "path": "test-repos/commander.js/examples/alias.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/argument.js": {
+      "path": "test-repos/commander.js/examples/argument.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/arguments-custom-processing.js": {
+      "path": "test-repos/commander.js/examples/arguments-custom-processing.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/arguments-extra.js": {
+      "path": "test-repos/commander.js/examples/arguments-extra.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/configure-help.js": {
+      "path": "test-repos/commander.js/examples/configure-help.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/configure-output.js": {
+      "path": "test-repos/commander.js/examples/configure-output.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/custom-command-class.js": {
+      "path": "test-repos/commander.js/examples/custom-command-class.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": "CommandWithTrace"
+    },
+    "test-repos/commander.js/examples/custom-help-text.js": {
+      "path": "test-repos/commander.js/examples/custom-help-text.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/defaultCommand.js": {
+      "path": "test-repos/commander.js/examples/defaultCommand.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/global-options-added.js": {
+      "path": "test-repos/commander.js/examples/global-options-added.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": "MyRootCommand"
+    },
+    "test-repos/commander.js/examples/global-options-nested.js": {
+      "path": "test-repos/commander.js/examples/global-options-nested.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/help-groups.js": {
+      "path": "test-repos/commander.js/examples/help-groups.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/help-subcommands-usage.js": {
+      "path": "test-repos/commander.js/examples/help-subcommands-usage.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/hook.js": {
+      "path": "test-repos/commander.js/examples/hook.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/nestedCommands.js": {
+      "path": "test-repos/commander.js/examples/nestedCommands.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/options-boolean-or-value.js": {
+      "path": "test-repos/commander.js/examples/options-boolean-or-value.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/options-common.js": {
+      "path": "test-repos/commander.js/examples/options-common.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/options-conflicts.js": {
+      "path": "test-repos/commander.js/examples/options-conflicts.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/options-custom-processing.js": {
+      "path": "test-repos/commander.js/examples/options-custom-processing.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/options-defaults.js": {
+      "path": "test-repos/commander.js/examples/options-defaults.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/options-env.js": {
+      "path": "test-repos/commander.js/examples/options-env.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/options-extra.js": {
+      "path": "test-repos/commander.js/examples/options-extra.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/options-implies.js": {
+      "path": "test-repos/commander.js/examples/options-implies.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/options-negatable.js": {
+      "path": "test-repos/commander.js/examples/options-negatable.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/options-required.js": {
+      "path": "test-repos/commander.js/examples/options-required.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/options-variadic.js": {
+      "path": "test-repos/commander.js/examples/options-variadic.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/pass-through-options.js": {
+      "path": "test-repos/commander.js/examples/pass-through-options.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/pm-list.js": {
+      "path": "test-repos/commander.js/examples/pm-list.js",
+      "imports": [],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/positional-options.js": {
+      "path": "test-repos/commander.js/examples/positional-options.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/split.js": {
+      "path": "test-repos/commander.js/examples/split.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/string-util.js": {
+      "path": "test-repos/commander.js/examples/string-util.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/examples/thank.js": {
+      "path": "test-repos/commander.js/examples/thank.js",
+      "imports": [
+        {
+          "source": "commander",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/index.js": {
+      "path": "test-repos/commander.js/index.js",
+      "imports": [
+        {
+          "source": "./lib/argument.js",
+          "type": "commonjs"
+        },
+        {
+          "source": "./lib/command.js",
+          "type": "commonjs"
+        },
+        {
+          "source": "./lib/error.js",
+          "type": "commonjs"
+        },
+        {
+          "source": "./lib/help.js",
+          "type": "commonjs"
+        },
+        {
+          "source": "./lib/option.js",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/jest.config.js": {
+      "path": "test-repos/commander.js/jest.config.js",
+      "imports": [],
+      "exports": [
+        "config"
+      ],
+      "className": null
+    },
+    "test-repos/commander.js/lib/argument.js": {
+      "path": "test-repos/commander.js/lib/argument.js",
+      "imports": [
+        {
+          "source": "./error.js",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": "Argument"
+    },
+    "test-repos/commander.js/lib/command.js": {
+      "path": "test-repos/commander.js/lib/command.js",
+      "imports": [
+        {
+          "source": "node:events",
+          "type": "commonjs"
+        },
+        {
+          "source": "node:child_process",
+          "type": "commonjs"
+        },
+        {
+          "source": "node:path",
+          "type": "commonjs"
+        },
+        {
+          "source": "node:fs",
+          "type": "commonjs"
+        },
+        {
+          "source": "node:process",
+          "type": "commonjs"
+        },
+        {
+          "source": "./argument.js",
+          "type": "commonjs"
+        },
+        {
+          "source": "./error.js",
+          "type": "commonjs"
+        },
+        {
+          "source": "./help.js",
+          "type": "commonjs"
+        },
+        {
+          "source": "./option.js",
+          "type": "commonjs"
+        },
+        {
+          "source": "./suggestSimilar",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": "Command"
+    },
+    "test-repos/commander.js/lib/error.js": {
+      "path": "test-repos/commander.js/lib/error.js",
+      "imports": [],
+      "exports": [],
+      "className": "InvalidArgumentError"
+    },
+    "test-repos/commander.js/lib/help.js": {
+      "path": "test-repos/commander.js/lib/help.js",
+      "imports": [
+        {
+          "source": "./argument.js",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": "Help"
+    },
+    "test-repos/commander.js/lib/option.js": {
+      "path": "test-repos/commander.js/lib/option.js",
+      "imports": [
+        {
+          "source": "./error.js",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": "DualOptions"
+    },
+    "test-repos/commander.js/lib/suggestSimilar.js": {
+      "path": "test-repos/commander.js/lib/suggestSimilar.js",
+      "imports": [],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/args.literal.test.js": {
+      "path": "test-repos/commander.js/tests/args.literal.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/args.variadic.test.js": {
+      "path": "test-repos/commander.js/tests/args.variadic.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/argument.chain.test.js": {
+      "path": "test-repos/commander.js/tests/argument.chain.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/argument.choices.test.js": {
+      "path": "test-repos/commander.js/tests/argument.choices.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/argument.custom-processing.test.js": {
+      "path": "test-repos/commander.js/tests/argument.custom-processing.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/argument.required.test.js": {
+      "path": "test-repos/commander.js/tests/argument.required.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/argument.variadic.test.js": {
+      "path": "test-repos/commander.js/tests/argument.variadic.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.action.test.js": {
+      "path": "test-repos/commander.js/tests/command.action.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.addCommand.test.js": {
+      "path": "test-repos/commander.js/tests/command.addCommand.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.addHelpOption.test.js": {
+      "path": "test-repos/commander.js/tests/command.addHelpOption.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.addHelpText.test.js": {
+      "path": "test-repos/commander.js/tests/command.addHelpText.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.alias.test.js": {
+      "path": "test-repos/commander.js/tests/command.alias.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.allowExcessArguments.test.js": {
+      "path": "test-repos/commander.js/tests/command.allowExcessArguments.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.allowUnknownOption.test.js": {
+      "path": "test-repos/commander.js/tests/command.allowUnknownOption.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.argumentVariations.test.js": {
+      "path": "test-repos/commander.js/tests/command.argumentVariations.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.asterisk.test.js": {
+      "path": "test-repos/commander.js/tests/command.asterisk.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.chain.test.js": {
+      "path": "test-repos/commander.js/tests/command.chain.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.commandHelp.test.js": {
+      "path": "test-repos/commander.js/tests/command.commandHelp.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.configureHelp.test.js": {
+      "path": "test-repos/commander.js/tests/command.configureHelp.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.configureOutput.test.js": {
+      "path": "test-repos/commander.js/tests/command.configureOutput.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        },
+        {
+          "source": "node:process",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.copySettings.test.js": {
+      "path": "test-repos/commander.js/tests/command.copySettings.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.createArgument.test.js": {
+      "path": "test-repos/commander.js/tests/command.createArgument.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": "MyCommand"
+    },
+    "test-repos/commander.js/tests/command.createHelp.test.js": {
+      "path": "test-repos/commander.js/tests/command.createHelp.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": "MyCommand"
+    },
+    "test-repos/commander.js/tests/command.createOption.test.js": {
+      "path": "test-repos/commander.js/tests/command.createOption.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": "MyCommand"
+    },
+    "test-repos/commander.js/tests/command.default.test.js": {
+      "path": "test-repos/commander.js/tests/command.default.test.js",
+      "imports": [
+        {
+          "source": "child_process",
+          "type": "commonjs"
+        },
+        {
+          "source": "../",
+          "type": "commonjs"
+        },
+        {
+          "source": "path",
+          "type": "commonjs"
+        },
+        {
+          "source": "util",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.description.test.js": {
+      "path": "test-repos/commander.js/tests/command.description.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.error.test.js": {
+      "path": "test-repos/commander.js/tests/command.error.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.executableSubcommand.inspect.test.js": {
+      "path": "test-repos/commander.js/tests/command.executableSubcommand.inspect.test.js",
+      "imports": [
+        {
+          "source": "child_process",
+          "type": "commonjs"
+        },
+        {
+          "source": "path",
+          "type": "commonjs"
+        },
+        {
+          "source": "util",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.executableSubcommand.lookup.test.js": {
+      "path": "test-repos/commander.js/tests/command.executableSubcommand.lookup.test.js",
+      "imports": [
+        {
+          "source": "child_process",
+          "type": "commonjs"
+        },
+        {
+          "source": "path",
+          "type": "commonjs"
+        },
+        {
+          "source": "util",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.executableSubcommand.mock.test.js": {
+      "path": "test-repos/commander.js/tests/command.executableSubcommand.mock.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        },
+        {
+          "source": "child_process",
+          "type": "commonjs"
+        },
+        {
+          "source": "events",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.executableSubcommand.search.test.js": {
+      "path": "test-repos/commander.js/tests/command.executableSubcommand.search.test.js",
+      "imports": [
+        {
+          "source": "child_process",
+          "type": "commonjs"
+        },
+        {
+          "source": "fs",
+          "type": "commonjs"
+        },
+        {
+          "source": "path",
+          "type": "commonjs"
+        },
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.executableSubcommand.signals.test.js": {
+      "path": "test-repos/commander.js/tests/command.executableSubcommand.signals.test.js",
+      "imports": [
+        {
+          "source": "child_process",
+          "type": "commonjs"
+        },
+        {
+          "source": "path",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.executableSubcommand.test.js": {
+      "path": "test-repos/commander.js/tests/command.executableSubcommand.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.exitOverride.test.js": {
+      "path": "test-repos/commander.js/tests/command.exitOverride.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        },
+        {
+          "source": "path",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.help.test.js": {
+      "path": "test-repos/commander.js/tests/command.help.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.helpCommand.test.js": {
+      "path": "test-repos/commander.js/tests/command.helpCommand.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.helpOption.test.js": {
+      "path": "test-repos/commander.js/tests/command.helpOption.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.hook.test.js": {
+      "path": "test-repos/commander.js/tests/command.hook.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.name.test.js": {
+      "path": "test-repos/commander.js/tests/command.name.test.js",
+      "imports": [
+        {
+          "source": "path",
+          "type": "commonjs"
+        },
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.nested.test.js": {
+      "path": "test-repos/commander.js/tests/command.nested.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.onCommand.test.js": {
+      "path": "test-repos/commander.js/tests/command.onCommand.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.option-misuse.test.js": {
+      "path": "test-repos/commander.js/tests/command.option-misuse.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.parse.test.js": {
+      "path": "test-repos/commander.js/tests/command.parse.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.parseOptions.test.js": {
+      "path": "test-repos/commander.js/tests/command.parseOptions.test.js",
+      "imports": [
+        {
+          "source": "child_process",
+          "type": "commonjs"
+        },
+        {
+          "source": "../",
+          "type": "commonjs"
+        },
+        {
+          "source": "path",
+          "type": "commonjs"
+        },
+        {
+          "source": "util",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.positionalOptions.test.js": {
+      "path": "test-repos/commander.js/tests/command.positionalOptions.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.registerClash.test.js": {
+      "path": "test-repos/commander.js/tests/command.registerClash.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.showHelpAfterError.test.js": {
+      "path": "test-repos/commander.js/tests/command.showHelpAfterError.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.showSuggestionAfterError.test.js": {
+      "path": "test-repos/commander.js/tests/command.showSuggestionAfterError.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.summary.test.js": {
+      "path": "test-repos/commander.js/tests/command.summary.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.unknownCommand.test.js": {
+      "path": "test-repos/commander.js/tests/command.unknownCommand.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.unknownOption.test.js": {
+      "path": "test-repos/commander.js/tests/command.unknownOption.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/command.usage.test.js": {
+      "path": "test-repos/commander.js/tests/command.usage.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/commander.configureCommand.test.js": {
+      "path": "test-repos/commander.js/tests/commander.configureCommand.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/createCommand.test.js": {
+      "path": "test-repos/commander.js/tests/createCommand.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": "MyClass"
+    },
+    "test-repos/commander.js/tests/deprecated.test.js": {
+      "path": "test-repos/commander.js/tests/deprecated.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/fixtures/inspect-sub.js": {
+      "path": "test-repos/commander.js/tests/fixtures/inspect-sub.js",
+      "imports": [],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/fixtures/inspect.js": {
+      "path": "test-repos/commander.js/tests/fixtures/inspect.js",
+      "imports": [
+        {
+          "source": "../../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/fixtures/pm-cache-clear.js": {
+      "path": "test-repos/commander.js/tests/fixtures/pm-cache-clear.js",
+      "imports": [],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/fixtures/pm-cache-validate.js": {
+      "path": "test-repos/commander.js/tests/fixtures/pm-cache-validate.js",
+      "imports": [],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/fixtures/pm-cache.js": {
+      "path": "test-repos/commander.js/tests/fixtures/pm-cache.js",
+      "imports": [
+        {
+          "source": "../../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/fixtures/pm-echo.js": {
+      "path": "test-repos/commander.js/tests/fixtures/pm-echo.js",
+      "imports": [],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/fixtures/pm-fail.js": {
+      "path": "test-repos/commander.js/tests/fixtures/pm-fail.js",
+      "imports": [],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/fixtures/pm-publish.js": {
+      "path": "test-repos/commander.js/tests/fixtures/pm-publish.js",
+      "imports": [],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/fixtures/pm-terminate.js": {
+      "path": "test-repos/commander.js/tests/fixtures/pm-terminate.js",
+      "imports": [],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/fixtures-extensions/pm-try-ts.ts": {
+      "path": "test-repos/commander.js/tests/fixtures-extensions/pm-try-ts.ts",
+      "imports": [],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/fixtures-extensions/pm.js": {
+      "path": "test-repos/commander.js/tests/fixtures-extensions/pm.js",
+      "imports": [
+        {
+          "source": "../../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.argumentDescription.test.js": {
+      "path": "test-repos/commander.js/tests/help.argumentDescription.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.boxWrap.test.js": {
+      "path": "test-repos/commander.js/tests/help.boxWrap.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.commandTerm.test.js": {
+      "path": "test-repos/commander.js/tests/help.commandTerm.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.commandUsage.test.js": {
+      "path": "test-repos/commander.js/tests/help.commandUsage.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.longestArgumentTermLength.test.js": {
+      "path": "test-repos/commander.js/tests/help.longestArgumentTermLength.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.longestCommandTermLength.test.js": {
+      "path": "test-repos/commander.js/tests/help.longestCommandTermLength.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.longestOptionTermLength.test.js": {
+      "path": "test-repos/commander.js/tests/help.longestOptionTermLength.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.minWidthToWrap.test.js": {
+      "path": "test-repos/commander.js/tests/help.minWidthToWrap.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.optionDescription.test.js": {
+      "path": "test-repos/commander.js/tests/help.optionDescription.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.optionTerm.test.js": {
+      "path": "test-repos/commander.js/tests/help.optionTerm.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.padWidth.test.js": {
+      "path": "test-repos/commander.js/tests/help.padWidth.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.preformatted.test.js": {
+      "path": "test-repos/commander.js/tests/help.preformatted.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.showGlobalOptions.test.js": {
+      "path": "test-repos/commander.js/tests/help.showGlobalOptions.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.sortCommands.test.js": {
+      "path": "test-repos/commander.js/tests/help.sortCommands.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.sortOptions.test.js": {
+      "path": "test-repos/commander.js/tests/help.sortOptions.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.stripAnsi.test.js": {
+      "path": "test-repos/commander.js/tests/help.stripAnsi.test.js",
+      "imports": [
+        {
+          "source": "../lib/help",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.style.test.js": {
+      "path": "test-repos/commander.js/tests/help.style.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.subcommandDescription.test.js": {
+      "path": "test-repos/commander.js/tests/help.subcommandDescription.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.suggestion.test.js": {
+      "path": "test-repos/commander.js/tests/help.suggestion.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.visibleArguments.test.js": {
+      "path": "test-repos/commander.js/tests/help.visibleArguments.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.visibleCommands.test.js": {
+      "path": "test-repos/commander.js/tests/help.visibleCommands.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.visibleGlobalOptions.test.js": {
+      "path": "test-repos/commander.js/tests/help.visibleGlobalOptions.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/help.visibleOptions.test.js": {
+      "path": "test-repos/commander.js/tests/help.visibleOptions.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/helpGroup.test.js": {
+      "path": "test-repos/commander.js/tests/helpGroup.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/incrementNodeInspectorPort.test.js": {
+      "path": "test-repos/commander.js/tests/incrementNodeInspectorPort.test.js",
+      "imports": [
+        {
+          "source": "child_process",
+          "type": "commonjs"
+        },
+        {
+          "source": "path",
+          "type": "commonjs"
+        },
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/negatives.test.js": {
+      "path": "test-repos/commander.js/tests/negatives.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/option.bad-flags.test.js": {
+      "path": "test-repos/commander.js/tests/option.bad-flags.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/option.chain.test.js": {
+      "path": "test-repos/commander.js/tests/option.chain.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.bool.combo.test.js": {
+      "path": "test-repos/commander.js/tests/options.bool.combo.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.bool.small.combined.test.js": {
+      "path": "test-repos/commander.js/tests/options.bool.small.combined.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.bool.test.js": {
+      "path": "test-repos/commander.js/tests/options.bool.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.camelcase.test.js": {
+      "path": "test-repos/commander.js/tests/options.camelcase.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.choices.test.js": {
+      "path": "test-repos/commander.js/tests/options.choices.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.conflicts.test.js": {
+      "path": "test-repos/commander.js/tests/options.conflicts.test.js",
+      "imports": [
+        {
+          "source": "path",
+          "type": "commonjs"
+        },
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.custom-processing.test.js": {
+      "path": "test-repos/commander.js/tests/options.custom-processing.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.default.test.js": {
+      "path": "test-repos/commander.js/tests/options.default.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.dual-options.test.js": {
+      "path": "test-repos/commander.js/tests/options.dual-options.test.js",
+      "imports": [
+        {
+          "source": "../lib/option.js",
+          "type": "commonjs"
+        },
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.env.test.js": {
+      "path": "test-repos/commander.js/tests/options.env.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.flags.test.js": {
+      "path": "test-repos/commander.js/tests/options.flags.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.getset.test.js": {
+      "path": "test-repos/commander.js/tests/options.getset.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.implies.test.js": {
+      "path": "test-repos/commander.js/tests/options.implies.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.mandatory.test.js": {
+      "path": "test-repos/commander.js/tests/options.mandatory.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.optional.test.js": {
+      "path": "test-repos/commander.js/tests/options.optional.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.opts.test.js": {
+      "path": "test-repos/commander.js/tests/options.opts.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.optsWithGlobals.test.js": {
+      "path": "test-repos/commander.js/tests/options.optsWithGlobals.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.preset.test.js": {
+      "path": "test-repos/commander.js/tests/options.preset.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.registerClash.test.js": {
+      "path": "test-repos/commander.js/tests/options.registerClash.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.required.test.js": {
+      "path": "test-repos/commander.js/tests/options.required.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.twice.test.js": {
+      "path": "test-repos/commander.js/tests/options.twice.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.values.test.js": {
+      "path": "test-repos/commander.js/tests/options.values.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.variadic.test.js": {
+      "path": "test-repos/commander.js/tests/options.variadic.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/options.version.test.js": {
+      "path": "test-repos/commander.js/tests/options.version.test.js",
+      "imports": [
+        {
+          "source": "../",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/program.test.js": {
+      "path": "test-repos/commander.js/tests/program.test.js",
+      "imports": [
+        {
+          "source": "../index.js",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/ts-imports.test.ts": {
+      "path": "test-repos/commander.js/tests/ts-imports.test.ts",
+      "imports": [
+        {
+          "source": "../",
+          "type": "es6"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/tests/useColor.test.js": {
+      "path": "test-repos/commander.js/tests/useColor.test.js",
+      "imports": [
+        {
+          "source": "../lib/command.js",
+          "type": "commonjs"
+        }
+      ],
+      "exports": [],
+      "className": null
+    },
+    "test-repos/commander.js/typings/index.test-d.ts": {
+      "path": "test-repos/commander.js/typings/index.test-d.ts",
+      "imports": [
+        {
+          "source": "./index",
+          "type": "es6"
+        },
+        {
+          "source": "tsd",
+          "type": "es6"
+        }
+      ],
+      "exports": [],
+      "className": "MyCommand"
+    }
+  }
+}

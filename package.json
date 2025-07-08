@@ -1,0 +1,13 @@
+{
+  "name": "module-map-generator",
+  "version": "0.1.0",
+  "description": "Generate module dependency maps from JavaScript codebases",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node src/parser.js test-repos/commander/lib/command.js"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.23.0",
+    "@babel/traverse": "^7.23.0"
+  }
+}
