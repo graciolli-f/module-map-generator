@@ -3,5 +3,5 @@ package-lock.json
 node_modules/
 .DS_Store
 module-map.json
-progress.md
+progress/
 dependency-analysis.json

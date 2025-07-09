@@ -9,7 +9,7 @@ class DependencyAnalyzer {
   
   analyze() {
     // Step 1: Build a lookup map for faster access
-  this.moduleLookup = this._buildModuleLookup();
+    this.moduleLookup = this._buildModuleLookup();
   
     // Step 2: For each module, resolve its imports
   for (const [filePath, moduleInfo] of this.modules) {
@@ -17,7 +17,10 @@ class DependencyAnalyzer {
   }
   
     // Step 3: Build reverse dependencies (importedBy)
-  this._buildReverseDependencies();
+    this._buildReverseDependencies();
+
+    // Step 4: Detect circular dependencies
+    this.circularDependencies = this._detectCircularDependencies();
     
     return this.graph;
   }
@@ -46,30 +49,55 @@ class DependencyAnalyzer {
     return lookup;
   }
   
-  _processModule(filePath, moduleInfo) {
+  // In _processModule method, replace the import processing logic:
+_processModule(filePath, moduleInfo) {
     const dependencies = {
-      imports: [], // What this module imports
-      importedBy: [], // What modules import this one
+      imports: [], // All imports with their types
+      importedBy: [], 
       exports: moduleInfo.exports || [],
-      errors: []
+      externalDependencies: [], // External packages
+      unresolvedInternals: [] // Actual errors - internal imports that couldn't be resolved
     };
     
     // Process each import
     if (moduleInfo.imports) {
       for (const imp of moduleInfo.imports) {
-        const resolved = this._resolveImport(imp.source, filePath);
-        if (resolved) {
-          dependencies.imports.push({
+        const isRelative = imp.source.startsWith('./') || imp.source.startsWith('../');
+        const isNodeBuiltin = ['fs', 'path', 'child_process', 'util', 'events', 'os', 'crypto'].includes(imp.source) || 
+                             imp.source.startsWith('node:');
+        
+        if (isRelative) {
+          // Internal project import
+          const resolved = this._resolveImport(imp.source, filePath);
+          if (resolved) {
+            dependencies.imports.push({
+              source: imp.source,
+              resolved: resolved,
+              type: imp.type,
+              line: imp.line,
+              dependencyType: 'internal'
+            });
+          } else {
+            // This is an actual error - couldn't resolve internal import
+            dependencies.unresolvedInternals.push({
+              source: imp.source,
+              line: imp.line,
+              message: `Could not resolve internal import: ${imp.source}`
+            });
+          }
+        } else if (isNodeBuiltin) {
+          // Node.js built-in module
+          dependencies.externalDependencies.push({
             source: imp.source,
-            resolved: resolved,
-            type: imp.type,
+            type: 'node-builtin',
             line: imp.line
           });
         } else {
-          dependencies.errors.push({
-            type: 'unresolved-import',
+          // External npm package
+          dependencies.externalDependencies.push({
             source: imp.source,
-            message: `Could not resolve import: ${imp.source}`
+            type: 'npm-package',
+            line: imp.line
           });
         }
       }
@@ -129,6 +157,95 @@ class DependencyAnalyzer {
       }
     }
   }
-}
+  _detectCircularDependencies() {
+    const cycles = [];
+    const visited = new Set();
+    const recursionStack = new Set();
+    const currentPath = []; // Renamed from 'path' to 'currentPath'
+
+    const dfs = (node) => {
+      visited.add(node);
+      recursionStack.add(node);
+      currentPath.push(node); // Updated
+
+      const dependencies = this.graph.get(node);
+      if (dependencies && dependencies.imports) {
+        for (const imp of dependencies.imports) {
+          if (imp.resolved) {
+            if (!visited.has(imp.resolved)) {
+              dfs(imp.resolved);
+            } else if (recursionStack.has(imp.resolved)) {
+              // Found a cycle!
+              const cycleStartIndex = currentPath.indexOf(imp.resolved); // Updated
+              const cycle = currentPath.slice(cycleStartIndex); // Updated
+              cycle.push(imp.resolved); // Complete the cycle
+              
+              // Store cycle with relative paths for readability
+              const relativeCycle = cycle.map(p => path.relative(process.cwd(), p));
+              cycles.push(relativeCycle);
+            }
+          }
+        }
+      }
+
+      currentPath.pop(); // Updated
+      recursionStack.delete(node);
+    };
+
+    // Run DFS from each unvisited node
+    for (const [node] of this.graph) {
+      if (!visited.has(node)) {
+        dfs(node);
+      }
+    }
+
+    // Remove duplicate cycles (same cycle found from different starting points)
+    const uniqueCycles = this._deduplicateCycles(cycles);
+    
+    return uniqueCycles;
+  }
+
+  _deduplicateCycles(cycles) {
+    const seen = new Set();
+    const unique = [];
+
+    for (const cycle of cycles) {
+      // Normalize cycle by rotating to start with the "smallest" path
+      const normalized = this._normalizeCycle(cycle);
+      const key = normalized.join(' -> ');
+      
+      if (!seen.has(key)) {
+        seen.add(key);
+        unique.push(cycle);
+      }
+    }
+
+    return unique;
+  }
+
+  _normalizeCycle(cycle) {
+    // Remove the duplicate last element
+    const withoutDuplicate = cycle.slice(0, -1);
+    
+    // Find the "smallest" element to start with (for consistent ordering)
+    let minIndex = 0;
+    for (let i = 1; i < withoutDuplicate.length; i++) {
+      if (withoutDuplicate[i] < withoutDuplicate[minIndex]) {
+        minIndex = i;
+      }
+    }
+
+    // Rotate array to start with the smallest element
+    return [
+      ...withoutDuplicate.slice(minIndex),
+      ...withoutDuplicate.slice(0, minIndex)
+    ];
+  }
+
+  // Add a getter for the circular dependencies
+  getCircularDependencies() {
+    return this.circularDependencies || [];
+  }
+}           
 
 module.exports = DependencyAnalyzer;
