@@ -181,7 +181,7 @@ class CodebaseWalker {
             exportWarnings: [],
             classes: [],
             className: null,
-            fileType: 'data',
+            fileType: 'data',  // This is crucial!
             dataType: fileExt.slice(1) // 'json', 'yaml', 'yml'
           });
         } else {

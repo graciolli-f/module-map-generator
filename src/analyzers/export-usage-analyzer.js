@@ -16,10 +16,11 @@ class ExportUsageAnalyzer {
       // Initialize export usage tracking
       for (const [filePath, deps] of this.graph) {
         if (deps.exports && deps.exports.length > 0) {
-          const moduleInfo = this.graph.get(filePath);
-          if (moduleInfo.fileType === 'data') {
-          continue;
+          // Skip tracking exports for data files
+          if (deps.fileType === 'data') {
+            continue;
           }
+          
           const usage = {};
           deps.exports.forEach(exp => {
             usage[exp.name] = {
@@ -83,9 +84,10 @@ class ExportUsageAnalyzer {
       // Identify unused exports
       const unusedExports = [];
       for (const [filePath, usage] of exportUsage) {
+        // Double-check - skip data files
         const moduleInfo = this.graph.get(filePath);
-        if (moduleInfo.fileType === 'data') {
-          continue; // Data files can have "unused" exports
+        if (moduleInfo && moduleInfo.fileType === 'data') {
+          continue;
         }
         
         for (const [exportName, info] of Object.entries(usage)) {

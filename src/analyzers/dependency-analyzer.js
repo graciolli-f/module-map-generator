@@ -50,13 +50,16 @@ class DependencyAnalyzer {
   }
   
   // In _processModule method, replace the import processing logic:
-_processModule(filePath, moduleInfo) {
+  _processModule(filePath, moduleInfo) {
     const dependencies = {
-      imports: [], // All imports with their types
+      imports: [],
       importedBy: [], 
       exports: moduleInfo.exports || [],
-      externalDependencies: [], // External packages
-      unresolvedInternals: [] // Actual errors - internal imports that couldn't be resolved
+      externalDependencies: [],
+      unresolvedInternals: [],
+      // Preserve the fileType from the module info!
+      fileType: moduleInfo.fileType,
+      dataType: moduleInfo.dataType
     };
     
     // Process each import
