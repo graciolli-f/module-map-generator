@@ -6,8 +6,7 @@
     "scripts": {
       "scan": "node src/walker.js",
       "analyze": "node src/analyze.js",
-      "scan:commander": "node src/walker.js test-repos/commander.js module-map.json",
-      "analyze:commander": "node src/analyze.js module-map.json dependency-analysis.json"
+      "generate:report": "node src/generate-report.js"
     },
   "dependencies": {
     "@babel/parser": "^7.23.0",

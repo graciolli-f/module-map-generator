@@ -1,5 +1,8 @@
-// Create src/analyzers/export-usage-analyzer.js
+// src/analyzers/export-usage-analyzer.js
 const path = require('path');
+const fs = require('fs');
+const ExportClassifier = require('./export-classifier');
+const ImportClassifier = require('./import-classifier');
 
 class ExportUsageAnalyzer {
     constructor(dependencyGraph) {
@@ -28,17 +31,7 @@ class ExportUsageAnalyzer {
       for (const [filePath, deps] of this.graph) {
         for (const imp of deps.imports) {
           if (imp.resolved && imp.specifiers) {
-            // ADD DEBUGGING HERE
             const targetModule = exportUsage.get(imp.resolved);
-            console.log(`\nChecking import from ${path.relative(process.cwd(), filePath)}`);
-            console.log(`  to ${path.relative(process.cwd(), imp.resolved)}`);
-            console.log(`  specifiers:`, imp.specifiers);
-            console.log(`  targetModule exists:`, !!targetModule);
-            
-            if (targetModule) {
-              console.log(`  Available exports:`, Object.keys(targetModule));
-            }
-            // END DEBUGGING
             
             for (const spec of imp.specifiers) {
               if (spec.type === 'named') {
@@ -97,11 +90,53 @@ class ExportUsageAnalyzer {
         }
       }
       
+      // Get project root
+      const projectRoot = this.findProjectRoot();
+      
+      // Classify unused exports
+      const exportClassifier = new ExportClassifier(projectRoot);
+      const classifiedUnusedExports = unusedExports.map(exp => 
+        exportClassifier.classify(exp, this.graph)
+      );
+      
+      // Classify missing exports (these are unresolved imports)
+      const importClassifier = new ImportClassifier(projectRoot);
+      const classifiedMissingExports = missingExports.map(miss => {
+        // Transform to match ImportClassifier expected format
+        const unresolvedImport = {
+          source: miss.missingExport,
+          fromModule: miss.source,
+          line: miss.line
+        };
+        
+        const classification = importClassifier.classify(unresolvedImport, this.graph);
+        
+        // Merge the original data with classification
+        return {
+          ...miss,
+          ...classification,
+          source: miss.source, // Keep original source (the importing module)
+          missingExport: miss.missingExport // Keep the missing export name
+        };
+      });
+      
       return {
         exportUsage,
-        unusedExports,
-        missingExports
+        unusedExports: classifiedUnusedExports,
+        missingExports: classifiedMissingExports
       };
+    }
+    
+    findProjectRoot() {
+      // Find the root by looking for package.json
+      let dir = process.cwd();
+      while (dir !== path.dirname(dir)) {
+        if (fs.existsSync(path.join(dir, 'package.json'))) {
+          return dir;
+        }
+        dir = path.dirname(dir);
+      }
+      return process.cwd();
     }
   }
   

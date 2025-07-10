@@ -75,7 +75,8 @@ _processModule(filePath, moduleInfo) {
               resolved: resolved,
               type: imp.type,
               line: imp.line,
-              dependencyType: 'internal'
+              dependencyType: 'internal',
+              specifiers: imp.specifiers
             });
           } else {
             // This is an actual error - couldn't resolve internal import

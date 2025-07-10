@@ -104,31 +104,6 @@ class ExportParser extends BaseParser {
     }
   }
   
-  _handleModuleExports(node, exports, path) {
-    const right = node.right;
-    
-    if (right.type === 'Identifier') {
-      exports.push({
-        name: 'default',
-        type: 'commonjs',
-        line: node.loc?.start.line,
-        kind: 'default',
-        value: right.name
-      });
-    } else if (right.type === 'ObjectExpression') {
-      right.properties.forEach(prop => {
-        if (prop.key?.name) {
-          exports.push({
-            name: prop.key.name,
-            type: 'commonjs',
-            line: prop.loc?.start.line,
-            kind: 'named'
-          });
-        }
-      });
-    }
-  }
-  
   // Make sure _analyzeExports exists too
   _analyzeExports(exports, warnings) {
     const seen = new Map();
