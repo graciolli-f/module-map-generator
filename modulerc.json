@@ -57,7 +57,7 @@
       "threshold": 7,
       "excludePatterns": ["**/index.js", "**/index.ts", "**/index.jsx", "**/index.tsx"]
     },
-    "includeExternalDependencies": true
+    "includeExternalDependencies": false
   },
   "rules": {
     "ignoredExports": {

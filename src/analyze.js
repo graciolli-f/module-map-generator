@@ -84,15 +84,24 @@ function analyze(inputPath, outputPath) {
    // Check for high coupling if enabled
    const highCouplingModules = [];
    if (config.analysis.detectHighCoupling?.enabled) {
-    const threshold = config.analysis.detectHighCoupling.threshold || 7;
+    const threshold = config.analysis.detectHighCoupling.threshold || 10;
     const excludePatterns = config.analysis.detectHighCoupling.excludePatterns || [];
     
     for (const [path, deps] of dependencyGraph) {
       // Check if this file should be excluded from high coupling detection
       const relativePath = require('path').relative(process.cwd(), path);
-      const shouldExclude = excludePatterns.some(pattern => 
-        configLoader.matchesPattern(relativePath, pattern)  // Reuse the pattern matcher
-      );
+      
+      const shouldExclude = excludePatterns.some(pattern => {
+        // Convert glob-like pattern to regex
+        const regex = new RegExp(
+          '^' + pattern
+            .replace(/\*/g, '.*')
+            .replace(/\?/g, '.')
+            .replace(/\//g, '\\/')
+          + '$'
+        );
+        return regex.test(relativePath);
+      });
       
       if (!shouldExclude && deps.imports.length > threshold) {
         highCouplingModules.push({
