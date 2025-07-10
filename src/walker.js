@@ -19,101 +19,93 @@ class CodebaseWalker {
   walk(dir, options = {}) {
     const { 
       extensions = this.config.scan.extensions,
-      ignore = this.config.scan.exclude,
-      respectGitignore = this.config.scan.respectGitignore,
-      additionalIgnore = this.config.scan.additionalIgnore || []
+      ignore = this.config.scan.ignore || this.config.scan.exclude || [], // Support both old and new config
+      respectGitignore = this.config.scan.respectGitignore
     } = options;
-
+  
     // Initialize gitignore parser if needed
     if (respectGitignore) {
       this.gitignoreParser = new GitignoreParser(dir);
     }
-
-    // Combine all ignore patterns
-    const allIgnorePatterns = [...ignore, ...additionalIgnore];
-
-    this._walkDirectory(dir, extensions, allIgnorePatterns);
+  
+    this._walkDirectory(dir, extensions, ignore);
     return this.modules;
   }
 
-  _shouldIgnore(pathToCheck, ignorePatterns, isFile = false) {
-    // Get the basename for file matching
-    const basename = path.basename(pathToCheck);
-    
+  _shouldIgnore(name, ignorePatterns, fullPath = null) {
     for (const pattern of ignorePatterns) {
       // Direct match
-      if (pattern === pathToCheck || pattern === basename) {
-        return true;
+      if (pattern === name) return true;
+      
+      // Handle ** patterns (match anywhere in path)
+      if (pattern.includes('**/')) {
+        const filePattern = pattern.replace('**/', '');
+        // Check if the full path ends with the pattern
+        if (fullPath && fullPath.endsWith(filePattern)) return true;
+        // Also check just the filename
+        if (name === filePattern) return true;
       }
       
-      // File extension patterns (*.log, *.tmp)
-      if (isFile && pattern.startsWith('*')) {
-        const extension = pattern.slice(1);
-        if (basename.endsWith(extension)) {
-          return true;
+      // Handle simple glob patterns
+      if (pattern.includes('*') && !pattern.includes('**/')) {
+        // *.extension
+        if (pattern.startsWith('*.')) {
+          const ext = pattern.slice(1);
+          if (name.endsWith(ext)) return true;
         }
-      }
-      
-      // Directory patterns
-      if (!isFile) {
-        if (pattern.startsWith('/') && pattern.endsWith('/*')) {
-          const dirName = pattern.slice(1, -2);
-          if (pathToCheck === dirName) {
-            return true;
-          }
+        // */filename
+        if (pattern.startsWith('*/')) {
+          const filename = pattern.slice(2);
+          if (name === filename) return true;
         }
-        
+        // dir/*
         if (pattern.endsWith('/*')) {
-          const dirName = pattern.slice(0, -2);
-          if (pathToCheck === dirName) {
-            return true;
-          }
-        }
-        
-        if (pattern.endsWith('/')) {
-          const dirName = pattern.slice(0, -1);
-          if (pathToCheck === dirName || basename === dirName) {
-            return true;
-          }
+          const dir = pattern.slice(0, -2);
+          if (name === dir) return true;
         }
       }
     }
     return false;
   }
-
+  
+  // Update _walkDirectory to pass fullPath
   _walkDirectory(dir, extensions, ignore) {
     const files = fs.readdirSync(dir);
     
-    // Merge config excludes with additionalIgnore
-    const allIgnorePatterns = [
-      ...ignore,
-      ...(this.config.scan.additionalIgnore || [])
-    ];
-  
     for (const file of files) {
       const fullPath = path.join(dir, file);
       const stat = fs.statSync(fullPath);
       
-      if (stat.isDirectory()) {
-        if (!this._shouldIgnore(file, allIgnorePatterns, false)) {
-          this._walkDirectory(fullPath, extensions, allIgnorePatterns);
+      // Check gitignore first
+      if (this.gitignoreParser && this.gitignoreParser.shouldIgnore(fullPath)) {
+        if (stat.isDirectory()) {
+          this.ignoredDirectories++;
+          this.ignoredDirectoryNames.push(file + ' (gitignored)');
         } else {
+          this.ignoredFiles++;
+        }
+        continue;
+      }
+      
+      // Check ignore patterns with full path for ** patterns
+      const relativePath = path.relative(process.cwd(), fullPath);
+      if (this._shouldIgnore(file, ignore, relativePath)) {
+        if (stat.isDirectory()) {
           this.ignoredDirectories++;
           this.ignoredDirectoryNames.push(file);
-        }
-      } else {
-        // Check if file should be ignored
-        if (this._shouldIgnore(file, allIgnorePatterns, true)) {
-          this.ignoredFiles++;
-          continue;
-        }
-        
-        if (extensions.includes(path.extname(file))) {
-          const moduleInfo = this.parser.parseFile(fullPath);
-          this.modules.set(fullPath, moduleInfo);
         } else {
           this.ignoredFiles++;
         }
+        continue;
+      }
+      
+      if (stat.isDirectory()) {
+        this._walkDirectory(fullPath, extensions, ignore);
+      } else if (extensions.includes(path.extname(file))) {
+        const moduleInfo = this.parser.parseFile(fullPath);
+        this.modules.set(fullPath, moduleInfo);
+      } else {
+        this.ignoredFiles++;
       }
     }
   }

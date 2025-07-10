@@ -1,13 +1,29 @@
 {
   "scan": {
-    "exclude": ["node_modules", "dist", "/test/*", ".git", ".cursor", "/temp/*", "/docs/*"],
-    "extensions": [".js", ".jsx", ".ts", ".tsx", ".json", ".css"],
+    "extensions": [".js", ".jsx", ".ts", ".tsx", ".css"],
     "respectGitignore": true,
-    "additionalIgnore": [
-      "*/tsconfig.json",
-      "*/test-suite.ts",
-      "*/vite.config.ts",
-      "*/tsconfig.node.json"
+    "ignore": [
+      "node_modules",
+      "dist",
+      "build",
+      "coverage",
+      ".git",
+      ".cursor",
+      "temp",
+      "docs",
+      "test",
+      "__tests__",
+      "*.test.js",
+      "*.spec.js",
+      "**/package.json",
+      "**/package-lock.json",
+      "**/tsconfig.json",
+      "**/vite.config.ts",
+      "**/tsconfig.node.json",
+      "**/test-suite.ts",
+      "**/*.config.ts",
+      "**/test-suite.ts",
+      "**/test*.ts"
     ]
   },
   "analysis": {
