@@ -82,6 +82,59 @@ class ImportClassifier {
     return optionalPackages.some(pkg => unresolvedImport.source.includes(pkg));
   }
 
+  isLikelyIntegrationTest(filePath, importPath) {
+    const fileName = path.basename(filePath).toLowerCase();
+    
+    // Integration test indicators in filename
+    const integrationTestPatterns = [
+      'integration',
+      'e2e',
+      'end-to-end',
+      'export-test',
+      'build-test',
+      'dist-test',
+      'package-test',
+      'publish-test'
+    ];
+    
+    // Check if filename suggests integration testing
+    const isIntegrationTestFile = integrationTestPatterns.some(pattern => 
+      fileName.includes(pattern)
+    );
+    
+    // Check if importing from build directories
+    const buildDirs = ['dist', 'build', 'lib', 'es', 'cjs'];
+    const isImportingFromBuild = buildDirs.some(dir => 
+      importPath.includes(`/${dir}/`) || 
+      importPath.startsWith(`./${dir}/`) || 
+      importPath.startsWith(`../${dir}/`)
+    );
+    
+    return isIntegrationTestFile && isImportingFromBuild;
+  }
+  
+  // In the classify method, update:
+  classify(unresolvedImport, allModules) {
+    const scores = [];
+    const reasons = [];
+    const suggestions = [];
+  
+    // Check if this is an integration test testing built output
+    if (this.isLikelyIntegrationTest(unresolvedImport.fromModule, unresolvedImport.source)) {
+      scores.push(10);
+      reasons.push('integration-test-pattern');
+      suggestions.push('Expected - integration test importing built package');
+    } else {
+      // Check if importing from build directory (but not integration test)
+      const buildCheck = this.checkForBuildDirectoryImport(unresolvedImport.source);
+      if (buildCheck.isBuildImport) {
+        scores.push(-8);
+        reasons.push('improper-build-import');
+        suggestions.push(`Import from source files instead of ${buildCheck.buildDir}/`);
+      }
+    }
+  }
+
   checkForTypo(importPath, allModules) {
     // Simple typo detection - check for similar paths
     const candidates = [];

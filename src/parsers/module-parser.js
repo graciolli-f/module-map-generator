@@ -15,21 +15,22 @@ class ModuleParser {
     const relativePath = require('path').relative(process.cwd(), filePath);
     const ext = path.extname(filePath).toLowerCase();
     
-    // Handle non-JavaScript files
-    if (ext === '.json') {
+    // Handle non-JavaScript files (though walker should handle these now)
+    if (ext === '.json' || ext === '.yaml' || ext === '.yml') {
       return {
         path: relativePath,
         imports: [],
         exports: [{
           name: 'default',
-          type: 'json',
+          type: 'data',
           line: 1,
           kind: 'default'
         }],
         exportWarnings: [],
         classes: [],
         className: null,
-        fileType: 'json'
+        fileType: 'data',
+        dataType: ext.slice(1)
       };
     }
     

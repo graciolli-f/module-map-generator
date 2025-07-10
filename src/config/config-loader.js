@@ -15,9 +15,32 @@ class ConfigLoader {
     ];
     this.defaultConfig = {
       scan: {
-        include: ['src', 'lib'],
         exclude: ['node_modules', 'dist', 'coverage', '.git', 'build', 'out'],
-        extensions: ['.js', '.jsx', '.ts', '.tsx']
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        dataExtensions: ['.json', '.yaml', '.yml'],
+        respectGitignore: true,
+        ignoreTestFiles: false, // Default to false for backward compatibility
+        testPatterns: [
+          '*.test.js',
+          '*.test.jsx',
+          '*.test.ts',
+          '*.test.tsx',
+          '*.spec.js',
+          '*.spec.jsx',
+          '*.spec.ts',
+          '*.spec.tsx',
+          '**/test/**',
+          '**/tests/**',
+          '**/__tests__/**',
+          '**/test-*.js',
+          '**/test-*.jsx',
+          '**/test-*.ts',
+          '**/test-*.tsx',
+          '**/*-test.js',
+          '**/*-test.jsx',
+          '**/*-test.ts',
+          '**/*-test.tsx'
+        ]
       },
       analysis: {
         detectCircularDependencies: true,

@@ -113,16 +113,40 @@ _processModule(filePath, moduleInfo) {
       const fromDir = path.dirname(fromFile);
       const resolved = path.resolve(fromDir, importPath);
       
-      // Try with and without extension
+      // Try exact path first (important for .json imports)
       if (this.moduleLookup.has(resolved)) {
         return this.moduleLookup.get(resolved);
       }
       
-      // Try common extensions
-      for (const ext of ['.js', '.jsx', '.ts', '.tsx']) {
-        const withExt = resolved + ext;
-        if (this.moduleLookup.has(withExt)) {
-          return this.moduleLookup.get(withExt);
+      // If import explicitly ends with .js, also try .ts (TypeScript pattern)
+      if (importPath.endsWith('.js')) {
+        const tsPath = resolved.replace(/\.js$/, '.ts');
+        if (this.moduleLookup.has(tsPath)) {
+          return this.moduleLookup.get(tsPath);
+        }
+        
+        const tsxPath = resolved.replace(/\.js$/, '.tsx');
+        if (this.moduleLookup.has(tsxPath)) {
+          return this.moduleLookup.get(tsxPath);
+        }
+      }
+      
+      // Try common extensions if no extension provided
+      if (!path.extname(importPath)) {
+        // Try code extensions first
+        for (const ext of ['.js', '.jsx', '.ts', '.tsx']) {
+          const withExt = resolved + ext;
+          if (this.moduleLookup.has(withExt)) {
+            return this.moduleLookup.get(withExt);
+          }
+        }
+        
+        // Then try data extensions
+        for (const ext of ['.json', '.yaml', '.yml']) {
+          const withExt = resolved + ext;
+          if (this.moduleLookup.has(withExt)) {
+            return this.moduleLookup.get(withExt);
+          }
         }
       }
       
@@ -135,8 +159,6 @@ _processModule(filePath, moduleInfo) {
       }
     }
     
-    // Handle node_modules imports (return null for now)
-    // These are external dependencies
     return null;
   }
 
