@@ -69,6 +69,13 @@
       "src/index.js",
       "src/api/*",
       "lib/*"
+    ],
+    "entryPointPaths": [
+      "**/custom-mcp-servers/*/src/index.js",
+      "**/src/server/routes/*.ts",
+      "**/src/utils/*Manager.ts",
+      "scripts/*.js",
+      "tools/*.js"
     ]
   },
   "output": {

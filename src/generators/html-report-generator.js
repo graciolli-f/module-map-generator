@@ -249,6 +249,164 @@ class HtmlReportGenerator {
       .details.show {
         display: block;
       }
+
+      .badge.muted {
+        background: #f0f0f0;
+        color: #666;
+      }
+
+      .export-group {
+        margin: 20px 0;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+
+      .export-group.collapsible {
+        border: 1px solid #e8e8e8;
+      }
+
+      .group-header {
+        padding: 12px 16px;
+        background: #f8f9fa;
+        font-size: 14px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: default;
+      }
+
+      details.export-group summary.group-header {
+        cursor: pointer;
+        user-select: none;
+      }
+
+      details.export-group summary.group-header:hover {
+        background: #f0f1f3;
+      }
+
+      .group-header.error {
+        background: #fee;
+        color: #d32f2f;
+      }
+
+      .group-header.success {
+        background: #e8f5e9;
+        color: #388e3c;
+      }
+
+      .group-header.muted {
+        background: #fafafa;
+        color: #666;
+      }
+
+      .group-header .icon {
+        font-size: 12px;
+      }
+
+      .group-header .count {
+        margin-left: auto;
+        font-weight: normal;
+        opacity: 0.7;
+      }
+
+      .compact-list {
+        padding: 0;
+      }
+
+      .compact-item {
+        padding: 10px 16px;
+        border-bottom: 1px solid #f0f0f0;
+        font-size: 13px;
+      }
+
+      .compact-item:last-child {
+        border-bottom: none;
+      }
+
+      .compact-item.error {
+        background: #fffafa;
+      }
+
+      .compact-item.success {
+        background: #fafffe;
+      }
+
+      .compact-item.muted {
+        background: #fafafa;
+        opacity: 0.8;
+      }
+
+      .item-main {
+        display: flex;
+        gap: 8px;
+        align-items: baseline;
+        margin-bottom: 4px;
+      }
+
+      .file-path {
+        color: #1a73e8;
+        font-family: monospace;
+        font-size: 12px;
+      }
+
+      .export-name {
+        font-weight: 600;
+        color: #333;
+        font-family: monospace;
+      }
+
+      .line-number {
+        color: #999;
+        font-size: 11px;
+        margin-left: auto;
+      }
+
+      .item-meta {
+        display: flex;
+        gap: 12px;
+        font-size: 12px;
+        color: #666;
+      }
+
+      .confidence {
+        font-weight: 500;
+      }
+
+      .suggestion, .reason {
+        font-style: italic;
+      }
+
+      /* Remove list markers from details elements */
+      details summary::-webkit-details-marker {
+        display: none;
+      }
+
+      details summary::before {
+        content: '▶';
+        display: inline-block;
+        margin-right: 8px;
+        transition: transform 0.2s;
+        font-size: 10px;
+      }
+      details[open] summary::before {
+        transform: rotate(90deg);
+      }
+      .confidence-high {
+        color: #d32f2f;
+        font-weight: 600;
+      }
+
+      .confidence-medium {
+        color: #f57c00;
+        font-weight: 500;
+      }
+
+      .confidence-low {
+        color: #fbc02d;
+        font-weight: 500;
+      }
     `;
   }
 
@@ -346,49 +504,116 @@ class HtmlReportGenerator {
   
     const validExports = unusedExports.filter(e => e.classification === 'likely-valid');
     const problematicExports = unusedExports.filter(e => e.classification === 'likely-problematic');
-  
+    const ignoredExports = unusedExports.filter(e => 
+      e.reasons.includes('configured-entry-point') || 
+      e.reasons.includes('ignored-by-config')
+    );
+
+    // Helper function to get a better message based on reasons
+    const getDisplayMessage = (exp) => {
+      if (exp.reasons.includes('suspicious-filename')) {
+        return 'Backup/temporary file - consider removing';
+      }
+      if (exp.reasons.includes('demo-or-example-file')) {
+        return 'Demo/example file - review if still needed';
+      }
+      if (exp.reasons.includes('deprecated-pattern')) {
+        return 'Contains deprecated patterns';
+      }
+      if (exp.reasons.includes('private-naming')) {
+        return 'Uses private naming convention';
+      }
+      // For React components that still ended up as problematic
+      if (exp.reasons.includes('framework-pattern-react') && exp.classification === 'likely-problematic') {
+        return 'React component - verify if actively used';
+      }
+      return exp.suggestion || 'Review needed';
+    };
+
     return `
-      <div class="section">
-        <h2>
-          Unused Exports
-          <span class="badge warning">${unusedExports.length} Total</span>
-          <span class="badge success">${validExports.length} Valid</span>
-          <span class="badge error">${problematicExports.length} Problematic</span>
-        </h2>
-        
-        ${problematicExports.length > 0 ? `
-          <h3 style="color: #e74c3c;">🔴 Likely Problematic (Review Recommended)</h3>
-          <div class="module-list">
+    <div class="section">
+      <h2>
+        Unused Exports
+        <span class="badge warning">${unusedExports.length} Total</span>
+        ${problematicExports.length > 0 ? `<span class="badge error">${problematicExports.length} Review</span>` : ''}
+        ${ignoredExports.length > 0 ? `<span class="badge muted">${ignoredExports.length} Ignored</span>` : ''}
+        ${validExports.filter(e => !ignoredExports.includes(e)).length > 0 ? `<span class="badge success">${validExports.filter(e => !ignoredExports.includes(e)).length} Valid</span>` : ''}
+      </h2>
+      
+      ${problematicExports.length > 0 ? `
+        <div class="export-group">
+          <h3 class="group-header error">
+            <span class="icon">🔴</span> Needs Review
+          </h3>
+          <div class="compact-list">
             ${problematicExports.map(exp => `
-              <div class="module-item">
-                <div class="module-name">${path.relative(process.cwd(), exp.module)}</div>
-                <div class="module-detail error-text">
-                  Export '${exp.exportName}' (line ${exp.line})
-                  <br><small>Confidence: ${(exp.confidence * 100).toFixed(0)}% | ${exp.suggestion}</small>
+              <div class="compact-item error">
+                <div class="item-main">
+                  <span class="file-path">${path.relative(process.cwd(), exp.module)}</span>
+                  <span class="export-name">'${exp.exportName}'</span>
+                  <span class="line-number">L${exp.line}</span>
+                </div>
+                <div class="item-meta">
+                  <span class="confidence confidence-${exp.confidence >= 0.8 ? 'high' : exp.confidence >= 0.5 ? 'medium' : 'low'}">
+                    ${(exp.confidence * 100).toFixed(0)}%
+                  </span>
+                  <span class="suggestion">${getDisplayMessage(exp)}</span>
                 </div>
               </div>
             `).join('')}
           </div>
+        </div>
+      ` : ''}
+        
+        ${ignoredExports.length > 0 ? `
+          <details class="export-group collapsible">
+            <summary class="group-header muted">
+              <span class="icon">🟡</span> Configured Exclusions
+              <span class="count">(${ignoredExports.length})</span>
+            </summary>
+            <div class="compact-list">
+              ${ignoredExports.map(exp => `
+                <div class="compact-item muted">
+                  <div class="item-main">
+                    <span class="file-path">${path.relative(process.cwd(), exp.module)}</span>
+                    <span class="export-name">'${exp.exportName}'</span>
+                    <span class="line-number">L${exp.line}</span>
+                  </div>
+                  <div class="item-meta">
+                    <span class="reason">${exp.reasons.includes('configured-entry-point') ? 'Entry point' : 'Config rule'}</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </details>
         ` : ''}
         
-        ${validExports.length > 0 ? `
-          <h3 style="color: #27ae60;">🟢 Likely Valid (No Action Needed)</h3>
-          <div class="module-list">
-            ${validExports.slice(0, 5).map(exp => `
-              <div class="module-item">
-                <div class="module-name">${path.relative(process.cwd(), exp.module)}</div>
-                <div class="module-detail" style="color: #27ae60;">
-                  Export '${exp.exportName}' (line ${exp.line})
-                  <br><small>Reasons: ${exp.reasons.join(', ')}</small>
+        ${validExports.filter(e => !ignoredExports.includes(e)).length > 0 ? `
+          <details class="export-group collapsible">
+            <summary class="group-header success">
+              <span class="icon">🟢</span> Framework & Test Patterns
+              <span class="count">(${validExports.filter(e => !ignoredExports.includes(e)).length})</span>
+            </summary>
+            <div class="compact-list">
+              ${validExports.filter(e => !ignoredExports.includes(e)).slice(0, 10).map(exp => `
+                <div class="compact-item success">
+                  <div class="item-main">
+                    <span class="file-path">${path.relative(process.cwd(), exp.module)}</span>
+                    <span class="export-name">'${exp.exportName}'</span>
+                    <span class="line-number">L${exp.line}</span>
+                  </div>
+                  <div class="item-meta">
+                    <span class="reason">${exp.reasons.join(', ')}</span>
+                  </div>
                 </div>
-              </div>
-            `).join('')}
-            ${validExports.length > 5 ? `
-              <div class="module-item">
-                <small style="color: #7f8c8d;">... and ${validExports.length - 5} more valid unused exports</small>
-              </div>
-            ` : ''}
-          </div>
+              `).join('')}
+              ${validExports.filter(e => !ignoredExports.includes(e)).length > 10 ? `
+                <div class="compact-item muted">
+                  <small>... and ${validExports.filter(e => !ignoredExports.includes(e)).length - 10} more</small>
+                </div>
+              ` : ''}
+            </div>
+          </details>
         ` : ''}
       </div>
     `;

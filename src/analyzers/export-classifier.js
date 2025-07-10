@@ -35,10 +35,11 @@ class ExportClassifier {
   }
 
    // Check if entry point
-   if (this.isEntryPoint(unusedExport.module)) {
-     scores.push(10);
-     reasons.push('entry-point-file');
-   }
+   // In classify method:
+  if (this.isEntryPoint(unusedExport.module)) {
+    scores.push(15);
+    reasons.push('configured-entry-point');
+  }
 
    // Check if index/barrel file
    if (this.isIndexFile(unusedExport.module)) {
@@ -83,13 +84,25 @@ class ExportClassifier {
      reasons.push('private-naming');
    }
 
+   //Check if suspicious filename
+  if (unusedExport.module.includes(' copy.') || unusedExport.module.includes('.backup.') || 
+    unusedExport.module.includes('.old.') || unusedExport.module.includes('.tmp.')) {
+    scores.push(-5);
+    reasons.push('suspicious-filename');
+    // This gives it negative score but doesn't completely exclude it
+    }
+
    const totalScore = scores.reduce((a, b) => a + b, 0);
+
+   const classification = reasons.includes('suspicious-filename') 
+    ? 'likely-problematic' 
+    : (totalScore > 0 ? 'likely-valid' : 'likely-problematic');
    
    return {
      module: unusedExport.module,
      exportName: unusedExport.exportName,
      line: unusedExport.line,
-     classification: totalScore > 0 ? 'likely-valid' : 'likely-problematic',
+     classification,
      confidence: Math.min(Math.abs(totalScore) / 10, 1),
      score: totalScore,
      reasons,
@@ -98,14 +111,13 @@ class ExportClassifier {
  }
 
  isEntryPoint(modulePath) {
-   const relativePath = path.relative(this.projectRoot, modulePath);
-   return (
-     this.packageJson.main === relativePath ||
-     this.packageJson.main === './' + relativePath ||
-     (this.packageJson.exports && 
-      Object.values(this.packageJson.exports).flat().includes('./' + relativePath))
-   );
- }
+  if (!this.config.rules?.entryPointPaths) return false;
+  
+  const relativePath = path.relative(this.projectRoot, modulePath);
+  return this.config.rules.entryPointPaths.some(pattern => 
+    this.matchesPattern(relativePath, pattern)
+  );
+}
 
  isIndexFile(modulePath) {
    return path.basename(modulePath) === 'index.js' || 
@@ -181,6 +193,19 @@ class ExportClassifier {
     return this.config.rules.publicApiPaths.some(pattern => 
       this.matchesPattern(relativePath, pattern)
     );
+  }
+
+  isSuspiciousFilename(modulePath) {
+    const filename = path.basename(modulePath).toLowerCase();
+    return filename.includes(' copy.') || 
+           filename.includes('.copy.') ||
+           filename.includes('.backup.') || 
+           filename.includes('.old.') || 
+           filename.includes('.tmp.') ||
+           filename.includes('.temp.') ||
+           filename.includes(' - copy') ||
+           filename.includes('_backup') ||
+           filename.includes('_old');
   }
 
   matchesPattern(str, pattern) {
