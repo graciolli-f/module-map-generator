@@ -33,4 +33,13 @@ const confidence = reasons.includes('suspicious-filename')
 
 - [ ] a way to annotate exports in code comments (like // @public-api) that your tool could detect 
 
+- [ ] some cases to consider: middleware / utils / helpers / etc
+``` 
+Should the tool analyze import statements in route files to see if middleware is actually being used?
+How should type-only exports be handled differently from value exports?
+Should certain directories (like /middleware/) have different default assumptions?
+Would it help to detect framework patterns (Express, Koa, etc.) to better classify middleware?
+``` 
+
+
 

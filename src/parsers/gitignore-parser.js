@@ -17,6 +17,7 @@ class GitignoreParser {
         .map(line => line.trim())
         .filter(line => line && !line.startsWith('#')); // Remove empty lines and comments
     }
+    console.log('Loaded gitignore patterns:', this.patterns);
   }
 
   shouldIgnore(filePath) {
@@ -26,19 +27,49 @@ class GitignoreParser {
     const normalizedPath = relativePath.replace(/\\/g, '/');
     
     return this.patterns.some(pattern => {
-      // Simple pattern matching (can be enhanced with minimatch library)
+      // Handle directory patterns (ending with /)
       if (pattern.endsWith('/')) {
-        // Directory pattern
-        return normalizedPath.startsWith(pattern) || normalizedPath.includes('/' + pattern);
-      } else if (pattern.includes('*')) {
-        // Glob pattern - simple implementation
-        const regex = new RegExp('^' + pattern.replace(/\*/g, '.*') + '$');
-        return regex.test(normalizedPath) || regex.test(path.basename(filePath));
-      } else {
-        // Exact match or file anywhere
-        return normalizedPath === pattern || 
-               normalizedPath.endsWith('/' + pattern) ||
-               path.basename(filePath) === pattern;
+        const dirPattern = pattern.slice(0, -1); // Remove trailing slash
+        
+        // Check if the path is the directory itself or a file/folder within it
+        return normalizedPath === dirPattern || 
+               normalizedPath.startsWith(dirPattern + '/');
+      } 
+      
+      // Handle patterns with wildcards
+      else if (pattern.includes('*')) {
+        // Convert glob to regex, handling special cases
+        let regexPattern = pattern
+          .replace(/[.+^${}()|[\]\\]/g, '\\$&') // Escape regex special chars except *
+          .replace(/\*/g, '.*'); // Convert * to .*
+        
+        // If pattern starts with *, it can match anywhere
+        if (pattern.startsWith('*')) {
+          const regex = new RegExp(regexPattern + '$');
+          return regex.test(normalizedPath) || regex.test(path.basename(filePath));
+        } else {
+          // Otherwise, must match from start of path or after a /
+          const regex = new RegExp('^' + regexPattern + '$');
+          return regex.test(normalizedPath) || 
+                 regex.test(path.basename(filePath)) ||
+                 normalizedPath.split('/').some(segment => regex.test(segment));
+        }
+      } 
+      
+      // Handle exact patterns
+      else {
+        const fileName = path.basename(filePath);
+        
+        // Check for exact path match
+        if (normalizedPath === pattern) return true;
+        
+        // Check if it's a filename that should match anywhere
+        if (!pattern.includes('/')) {
+          return fileName === pattern;
+        }
+        
+        // Check if it's a path pattern that should match as a suffix
+        return normalizedPath.endsWith('/' + pattern);
       }
     });
   }
