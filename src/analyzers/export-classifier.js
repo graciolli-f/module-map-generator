@@ -7,7 +7,7 @@ class ExportClassifier {
  constructor(projectRoot) {
    this.projectRoot = projectRoot;
    this.packageJson = this.loadPackageJson();
-   this.config = config || {};
+   this.config = new ConfigLoader().load(); // Fixed: removed undefined 'config' variable reference
  }
 
  loadPackageJson() {

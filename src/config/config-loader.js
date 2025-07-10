@@ -2,6 +2,9 @@
 const fs = require('fs');
 const path = require('path');
 
+// Track if we've already logged the config loading
+let hasLoggedConfig = false;
+
 class ConfigLoader {
   constructor() {
     this.configPaths = [
@@ -54,7 +57,11 @@ class ConfigLoader {
       if (fs.existsSync(fullPath)) {
         try {
           const userConfig = JSON.parse(fs.readFileSync(fullPath, 'utf-8'));
-          console.log(`Loaded configuration from ${configPath}`);
+          // Only log once per process
+          if (!hasLoggedConfig) {
+            console.log(`Loaded configuration from ${configPath}`);
+            hasLoggedConfig = true;
+          }
           return this.mergeConfigs(this.defaultConfig, userConfig);
         } catch (error) {
           console.error(`Error parsing ${configPath}:`, error.message);
