@@ -1,29 +1,36 @@
 {
-    "scan": {
-      "exclude": ["node_modules", "dist", "/test/*", ".git", ".cursor", "/temp/*", "/docs/*" ],
-      "extensions": [".js", ".jsx"]
+  "scan": {
+    "exclude": ["node_modules", "dist", "/test/*", ".git", ".cursor", "/temp/*", "/docs/*"],
+    "extensions": [".js", ".jsx", ".ts", ".tsx", ".json", ".css"],
+    "respectGitignore": true,
+    "additionalIgnore": [
+      "*/tsconfig.json",
+      "*/test-suite.ts",
+      "*/vite.config.ts",
+      "*/tsconfig.node.json"
+    ]
+  },
+  "analysis": {
+    "detectHighCoupling": {
+      "enabled": true,
+      "threshold": 7
+    }
+  },
+  "rules": {
+    "ignoredExports": {
+      "**/*.config.js": ["*"],
+      "**/*.test.js": ["mock*", "test*"],
+      "src/index.js": ["*"]
     },
-    "analysis": {
-      "detectHighCoupling": {
-        "enabled": true,
-        "threshold": 7
-      }
-    },
-    "rules": {
-      "ignoredExports": {
-        "**/*.config.js": ["*"],
-        "**/*.test.js": ["mock*", "test*"],
-        "src/index.js": ["*"]
-      },
-      "publicApiPaths": [
-        "src/index.js",
-        "src/api/*",
-        "lib/*"
-      ]
-    },
-    "output": {
-      "console": {
-        "maxIssuesShown": 3
-      }
+    "publicApiPaths": [
+      "src/index.js",
+      "src/api/*",
+      "lib/*"
+    ]
+  },
+  "output": {
+    "console": {
+      "maxIssuesShown": 3
     }
   }
+}

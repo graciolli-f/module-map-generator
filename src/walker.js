@@ -3,48 +3,78 @@ const fs = require('fs');
 const path = require('path');
 const ModuleParser = require('./parsers/module-parser');
 const ConfigLoader = require('./config/config-loader');
+const GitignoreParser = require('./parsers/gitignore-parser');
 
 class CodebaseWalker {
   constructor() {
     this.parser = new ModuleParser();
     this.modules = new Map();
-    this.config = new ConfigLoader().load(); // Fixed: removed undefined 'config' variable reference
-    this.ignoredFiles = 0; // Track ignored files count
-    this.ignoredDirectories = 0; // Track ignored directories count
-    this.ignoredDirectoryNames = []; // Track names of ignored directories
+    this.config = new ConfigLoader().load();
+    this.ignoredFiles = 0;
+    this.ignoredDirectories = 0;
+    this.ignoredDirectoryNames = [];
+    this.gitignoreParser = null;
   }
 
   walk(dir, options = {}) {
     const { 
       extensions = this.config.scan.extensions,
-      ignore = this.config.scan.exclude
+      ignore = this.config.scan.exclude,
+      respectGitignore = this.config.scan.respectGitignore,
+      additionalIgnore = this.config.scan.additionalIgnore || []
     } = options;
 
-    this._walkDirectory(dir, extensions, ignore);
+    // Initialize gitignore parser if needed
+    if (respectGitignore) {
+      this.gitignoreParser = new GitignoreParser(dir);
+    }
+
+    // Combine all ignore patterns
+    const allIgnorePatterns = [...ignore, ...additionalIgnore];
+
+    this._walkDirectory(dir, extensions, allIgnorePatterns);
     return this.modules;
   }
 
-  // Helper method to check if a path should be ignored based on glob patterns
-  _shouldIgnore(pathToCheck, ignorePatterns) {
+  _shouldIgnore(pathToCheck, ignorePatterns, isFile = false) {
+    // Get the basename for file matching
+    const basename = path.basename(pathToCheck);
+    
     for (const pattern of ignorePatterns) {
-      // Handle simple string matches
-      if (pattern === pathToCheck) {
+      // Direct match
+      if (pattern === pathToCheck || pattern === basename) {
         return true;
       }
       
-      // Handle glob patterns starting with /
-      if (pattern.startsWith('/') && pattern.endsWith('/*')) {
-        const dirName = pattern.slice(1, -2); // Remove / and /*
-        if (pathToCheck === dirName) {
+      // File extension patterns (*.log, *.tmp)
+      if (isFile && pattern.startsWith('*')) {
+        const extension = pattern.slice(1);
+        if (basename.endsWith(extension)) {
           return true;
         }
       }
       
-      // Handle glob patterns without leading /
-      if (pattern.endsWith('/*')) {
-        const dirName = pattern.slice(0, -2); // Remove /*
-        if (pathToCheck === dirName) {
-          return true;
+      // Directory patterns
+      if (!isFile) {
+        if (pattern.startsWith('/') && pattern.endsWith('/*')) {
+          const dirName = pattern.slice(1, -2);
+          if (pathToCheck === dirName) {
+            return true;
+          }
+        }
+        
+        if (pattern.endsWith('/*')) {
+          const dirName = pattern.slice(0, -2);
+          if (pathToCheck === dirName) {
+            return true;
+          }
+        }
+        
+        if (pattern.endsWith('/')) {
+          const dirName = pattern.slice(0, -1);
+          if (pathToCheck === dirName || basename === dirName) {
+            return true;
+          }
         }
       }
     }
@@ -53,41 +83,53 @@ class CodebaseWalker {
 
   _walkDirectory(dir, extensions, ignore) {
     const files = fs.readdirSync(dir);
-
+    
+    // Merge config excludes with additionalIgnore
+    const allIgnorePatterns = [
+      ...ignore,
+      ...(this.config.scan.additionalIgnore || [])
+    ];
+  
     for (const file of files) {
       const fullPath = path.join(dir, file);
       const stat = fs.statSync(fullPath);
       
       if (stat.isDirectory()) {
-        if (!this._shouldIgnore(file, ignore)) {
-          this._walkDirectory(fullPath, extensions, ignore);
+        if (!this._shouldIgnore(file, allIgnorePatterns, false)) {
+          this._walkDirectory(fullPath, extensions, allIgnorePatterns);
         } else {
-          this.ignoredDirectories++; // Track ignored directories
-          this.ignoredDirectoryNames.push(file); // Track the directory name
+          this.ignoredDirectories++;
+          this.ignoredDirectoryNames.push(file);
         }
-      } else if (extensions.includes(path.extname(file))) {
-        const moduleInfo = this.parser.parseFile(fullPath);
-        this.modules.set(fullPath, moduleInfo);
       } else {
-        this.ignoredFiles++; // Track ignored files (wrong extension)
+        // Check if file should be ignored
+        if (this._shouldIgnore(file, allIgnorePatterns, true)) {
+          this.ignoredFiles++;
+          continue;
+        }
+        
+        if (extensions.includes(path.extname(file))) {
+          const moduleInfo = this.parser.parseFile(fullPath);
+          this.modules.set(fullPath, moduleInfo);
+        } else {
+          this.ignoredFiles++;
+        }
       }
     }
   }
 }
 
-  // Test it
+// Test it
 if (require.main === module) {
   const configLoader = new ConfigLoader();
   const config = configLoader.load();
 
   const walker = new CodebaseWalker();
-  const targetPath = process.argv[2]
-  const outputPath = process.argv[3]
+  const targetPath = process.argv[2];
+  const outputPath = process.argv[3];
   
-  // Make path absolute
   const absolutePath = path.resolve(process.cwd(), targetPath);
   
-  // Check if directory exists
   if (!fs.existsSync(absolutePath)) {
     console.error(`Directory not found: ${absolutePath}`);
     process.exit(1);
@@ -96,15 +138,12 @@ if (require.main === module) {
   console.log(`Analyzing: ${absolutePath}`);
   const modules = walker.walk(absolutePath);
   
-  // Convert Map to object for JSON serialization
   const moduleData = {};
   for (const [filePath, info] of modules) {
-    // Use relative paths in the output
     const relativePath = path.relative(process.cwd(), filePath);
     moduleData[relativePath] = info;
   }
   
-  // Create the output structure
   const output = {
     analyzed: new Date().toISOString(),
     root: absolutePath,
@@ -112,20 +151,18 @@ if (require.main === module) {
     modules: moduleData
   };
   
-  // Write to file
   fs.writeFileSync(outputPath, JSON.stringify(output, null, 2));
   console.log(`\nWrote module map to: ${outputPath}`);
   console.log(`Found ${modules.size} modules`);
   
-  // Report ignored files and directories based on config settings
   if (walker.ignoredDirectories > 0) {
-    console.log(`Ignored ${walker.ignoredDirectories} directories (based on exclude patterns):`);
+    console.log(`Ignored ${walker.ignoredDirectories} directories:`);
     walker.ignoredDirectoryNames.forEach(dir => {
       console.log(`  - ${dir}`);
     });
   }
   if (walker.ignoredFiles > 0) {
-    console.log(`Ignored ${walker.ignoredFiles} files (wrong file extensions)`);
+    console.log(`Ignored ${walker.ignoredFiles} files`);
   }
 }
 

@@ -126,10 +126,12 @@ _processModule(filePath, moduleInfo) {
         }
       }
       
-      // Try index file
-      const indexPath = path.join(resolved, 'index.js');
-      if (this.moduleLookup.has(indexPath)) {
-        return this.moduleLookup.get(indexPath);
+      // Try index files with all extensions
+      for (const indexFile of ['index.js', 'index.jsx', 'index.ts', 'index.tsx']) {
+        const indexPath = path.join(resolved, indexFile);
+        if (this.moduleLookup.has(indexPath)) {
+          return this.moduleLookup.get(indexPath);
+        }
       }
     }
     
