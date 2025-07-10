@@ -48,8 +48,10 @@ class ConfigLoader {
         detectMissingExports: true,
         detectHighCoupling: {
           enabled: true,
-          threshold: 10
-        }
+          threshold: 10,
+          excludePatterns: ['**/index.js', '**/index.ts', '**/index.jsx', '**/index.tsx']
+        },
+        includeExternalDependencies: true // default to true for backward compatibility
       },
       rules: {
         ignoredExports: {},

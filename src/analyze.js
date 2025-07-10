@@ -38,7 +38,7 @@ function analyze(inputPath, outputPath) {
    let dependencyGraph = new Map();
    
    // Run dependency analysis (always needed as base)
-   const analyzer = new DependencyAnalyzer(modules);
+   const analyzer = new DependencyAnalyzer(modules, config);
    dependencyGraph = analyzer.analyze();
    
    // Run circular dependency detection if enabled
@@ -84,18 +84,25 @@ function analyze(inputPath, outputPath) {
    // Check for high coupling if enabled
    const highCouplingModules = [];
    if (config.analysis.detectHighCoupling?.enabled) {
-     const threshold = config.analysis.detectHighCoupling.threshold || 10;
-     for (const [path, deps] of dependencyGraph) {
-       if (deps.imports.length > threshold) {
-         highCouplingModules.push({
-           module: path,
-           importCount: deps.imports.length,
-           threshold: threshold
-         });
-       }
-     }
-     summary.highCouplingCount = highCouplingModules.length;
-   }
+    const threshold = config.analysis.detectHighCoupling.threshold || 7;
+    const excludePatterns = config.analysis.detectHighCoupling.excludePatterns || [];
+    
+    for (const [path, deps] of dependencyGraph) {
+      // Check if this file should be excluded from high coupling detection
+      const relativePath = require('path').relative(process.cwd(), path);
+      const shouldExclude = excludePatterns.some(pattern => 
+        configLoader.matchesPattern(relativePath, pattern)  // Reuse the pattern matcher
+      );
+      
+      if (!shouldExclude && deps.imports.length > threshold) {
+        highCouplingModules.push({
+          module: path,
+          importCount: deps.imports.length,
+          threshold: threshold
+        });
+      }
+    }
+  }
    
    for (const [path, deps] of dependencyGraph) {
      summary.totalInternalDependencies += deps.imports.length;

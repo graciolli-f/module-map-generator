@@ -2,9 +2,10 @@
 const path = require('path');
 
 class DependencyAnalyzer {
-  constructor(modules) {
+  constructor(modules, config) {
     this.modules = modules; // Map from walker
     this.graph = new Map(); // Will store our dependency relationships
+    this.config = config;
   }
   
   analyze() {
@@ -63,50 +64,44 @@ class DependencyAnalyzer {
     };
     
     // Process each import
-    if (moduleInfo.imports) {
-      for (const imp of moduleInfo.imports) {
-        const isRelative = imp.source.startsWith('./') || imp.source.startsWith('../');
-        const isNodeBuiltin = ['fs', 'path', 'child_process', 'util', 'events', 'os', 'crypto'].includes(imp.source) || 
-                             imp.source.startsWith('node:');
-        
-        if (isRelative) {
-          // Internal project import
-          const resolved = this._resolveImport(imp.source, filePath);
-          if (resolved) {
-            dependencies.imports.push({
-              source: imp.source,
-              resolved: resolved,
-              type: imp.type,
-              line: imp.line,
-              dependencyType: 'internal',
-              specifiers: imp.specifiers
-            });
-          } else {
-            // This is an actual error - couldn't resolve internal import
-            dependencies.unresolvedInternals.push({
-              source: imp.source,
-              line: imp.line,
-              message: `Could not resolve internal import: ${imp.source}`
-            });
-          }
-        } else if (isNodeBuiltin) {
-          // Node.js built-in module
-          dependencies.externalDependencies.push({
-            source: imp.source,
-            type: 'node-builtin',
-            line: imp.line
-          });
-        } else {
-          // External npm package
-          dependencies.externalDependencies.push({
-            source: imp.source,
-            type: 'npm-package',
-            line: imp.line
-          });
-        }
+    if (isRelative) {
+      // Internal project import
+      const resolved = this._resolveImport(imp.source, filePath);
+      if (resolved) {
+        dependencies.imports.push({
+          source: imp.source,
+          resolved: resolved,
+          type: imp.type,
+          line: imp.line,
+          dependencyType: 'internal',
+          specifiers: imp.specifiers
+        });
+      } else {
+        // This is an actual error - couldn't resolve internal import
+        dependencies.unresolvedInternals.push({
+          source: imp.source,
+          line: imp.line,
+          message: `Could not resolve internal import: ${imp.source}`
+        });
       }
+    } else if (!this.config.analysis.includeExternalDependencies) {
+      // Skip external dependencies if configured to do so
+      return;
+    } else if (isNodeBuiltin) {
+      // Node.js built-in module
+      dependencies.externalDependencies.push({
+        source: imp.source,
+        type: 'node-builtin',
+        line: imp.line
+      });
+    } else {
+      // External npm package
+      dependencies.externalDependencies.push({
+        source: imp.source,
+        type: 'npm-package',
+        line: imp.line
+      });
     }
-    
     this.graph.set(filePath, dependencies);
   }
   

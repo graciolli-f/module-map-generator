@@ -54,8 +54,10 @@
   "analysis": {
     "detectHighCoupling": {
       "enabled": true,
-      "threshold": 7
-    }
+      "threshold": 7,
+      "excludePatterns": ["**/index.js", "**/index.ts", "**/index.jsx", "**/index.tsx"]
+    },
+    "includeExternalDependencies": true
   },
   "rules": {
     "ignoredExports": {
