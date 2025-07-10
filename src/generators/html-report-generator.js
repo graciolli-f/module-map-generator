@@ -25,7 +25,6 @@ class HtmlReportGenerator {
         ${this.generateUnusedExports(analysis.unusedExports)}
         ${this.generateMissingExports(analysis.missingExports)}
         ${this.generateUnresolvedImports(analysis.dependencyGraph)}
-        ${this.generateModuleList(analysis.dependencyGraph)}
     </div>
     <script>
       ${this.getScript()}
@@ -717,44 +716,44 @@ class HtmlReportGenerator {
     `;
   }
 
-  generateModuleList(dependencyGraph) {
-    const modules = Object.entries(dependencyGraph)
-      .map(([filePath, deps]) => ({
-        path: filePath,
-        relativePath: path.relative(process.cwd(), filePath),
-        ...deps
-      }))
-      .sort((a, b) => b.imports.length - a.imports.length); // Sort by import count
+  // generateModuleList(dependencyGraph) {
+  //   const modules = Object.entries(dependencyGraph)
+  //     .map(([filePath, deps]) => ({
+  //       path: filePath,
+  //       relativePath: path.relative(process.cwd(), filePath),
+  //       ...deps
+  //     }))
+  //     .sort((a, b) => b.imports.length - a.imports.length); // Sort by import count
 
-    return `
-      <div class="section">
-        <h2>Module Details</h2>
-        <div class="module-grid">
-          ${modules.slice(0, 12).map(module => `
-            <div class="module-card">
-              <h3>${path.basename(module.relativePath)}</h3>
-              <div class="metric">
-                <span>Imports:</span>
-                <strong>${module.imports.length}</strong>
-              </div>
-              <div class="metric">
-                <span>Imported by:</span>
-                <strong>${module.importedBy.length}</strong>
-              </div>
-              <div class="metric">
-                <span>Exports:</span>
-                <strong>${module.exports.length}</strong>
-              </div>
-              <div class="metric">
-                <span>External deps:</span>
-                <strong>${module.externalDependencies.length}</strong>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    `;
-  }
+  //   return `
+  //     <div class="section">
+  //       <h2>Module Details</h2>
+  //       <div class="module-grid">
+  //         ${modules.slice(0, 12).map(module => `
+  //           <div class="module-card">
+  //             <h3>${path.basename(module.relativePath)}</h3>
+  //             <div class="metric">
+  //               <span>Imports:</span>
+  //               <strong>${module.imports.length}</strong>
+  //             </div>
+  //             <div class="metric">
+  //               <span>Imported by:</span>
+  //               <strong>${module.importedBy.length}</strong>
+  //             </div>
+  //             <div class="metric">
+  //               <span>Exports:</span>
+  //               <strong>${module.exports.length}</strong>
+  //             </div>
+  //             <div class="metric">
+  //               <span>External deps:</span>
+  //               <strong>${module.externalDependencies.length}</strong>
+  //             </div>
+  //           </div>
+  //         `).join('')}
+  //       </div>
+  //     </div>
+  //   `;
+  // }
 
   getScript() {
     return `
