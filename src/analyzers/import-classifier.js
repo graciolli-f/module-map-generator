@@ -10,25 +10,32 @@ class ImportClassifier {
     const scores = [];
     const reasons = [];
     const suggestions = [];
-
+  
+    // Check if this is an integration test testing built output
+    if (this.isLikelyIntegrationTest(unresolvedImport.fromModule, unresolvedImport.source)) {
+      scores.push(10);
+      reasons.push('integration-test-pattern');
+      suggestions.push('Expected - integration test importing built package');
+    }
+  
     // Check build-time pattern
     if (this.isBuildTimeConstant(unresolvedImport.source)) {
       scores.push(10);
       reasons.push('build-time-constant');
     }
-
+  
     // Check platform-specific
     if (this.isPlatformSpecific(unresolvedImport.source)) {
       scores.push(8);
       reasons.push('platform-specific');
     }
-
+  
     // Check if optional (in try-catch)
     if (this.isOptionalPattern(unresolvedImport)) {
       scores.push(7);
       reasons.push('optional-dependency');
     }
-
+  
     // Check for typos
     const typoSuggestion = this.checkForTypo(unresolvedImport.source, allModules);
     if (typoSuggestion) {
@@ -36,7 +43,7 @@ class ImportClassifier {
       reasons.push('possible-typo');
       suggestions.push(`Did you mean '${typoSuggestion}'?`);
     }
-
+  
     // Check wrong extension
     const extensionFix = this.checkWrongExtension(unresolvedImport);
     if (extensionFix) {
@@ -44,9 +51,9 @@ class ImportClassifier {
       reasons.push('wrong-extension');
       suggestions.push(`Try '${extensionFix}'`);
     }
-
+  
     const totalScore = scores.reduce((a, b) => a + b, 0);
-
+  
     return {
       source: unresolvedImport.source,
       fromModule: unresolvedImport.fromModule,
@@ -189,6 +196,26 @@ class ImportClassifier {
       }
     }
     return matrix[str2.length][str1.length];
+  }
+
+  checkForBuildDirectoryImport(importPath) {
+    const buildDirs = ['dist', 'build', 'lib', 'es', 'cjs', 'out', '.next'];
+    
+    for (const dir of buildDirs) {
+      if (importPath.includes(`/${dir}/`) || 
+          importPath.startsWith(`./${dir}/`) || 
+          importPath.startsWith(`../${dir}/`)) {
+        return {
+          isBuildImport: true,
+          buildDir: dir
+        };
+      }
+    }
+    
+    return {
+      isBuildImport: false,
+      buildDir: null
+    };
   }
 
   getSuggestion(score, reasons, suggestions) {

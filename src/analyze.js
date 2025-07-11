@@ -50,6 +50,7 @@ function analyze(inputPath, outputPath) {
    if (config.analysis.detectUnusedExports || config.analysis.detectMissingExports) {
      const exportAnalyzer = new ExportUsageAnalyzer(dependencyGraph);
      const exportAnalysis = exportAnalyzer.analyze();
+     console.log('Export analysis result:', JSON.stringify(exportAnalysis.missingExports[0], null, 2));
      
      if (config.analysis.detectUnusedExports) {
        // Pass config to export classifier

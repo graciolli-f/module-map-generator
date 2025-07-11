@@ -27,7 +27,7 @@ const confidence = reasons.includes('suspicious-filename')
   ? 0.9  // High confidence for suspicious filenames
   : Math.min(Math.abs(totalScore) / 10, 1);
 ```
-- [ ] improvement: html styling to make easier to parse 
+- [x] improvement: html styling to make easier to parse 
 
 - [ ] nail down how this will translate to Rubric. How will this detection then generate rules/boundaries/representation for the LLM to stay within boundaries? 
 
@@ -40,6 +40,7 @@ How should type-only exports be handled differently from value exports?
 Should certain directories (like /middleware/) have different default assumptions?
 Would it help to detect framework patterns (Express, Koa, etc.) to better classify middleware?
 ``` 
+- [ ] modify rubric generation to be much more concrete
 
 
 

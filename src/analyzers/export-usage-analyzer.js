@@ -100,6 +100,31 @@ class ExportUsageAnalyzer {
           }
         }
       }
+
+
+    console.log('\n=== DEBUG: Export Usage Analysis ===');
+    console.log('Total modules with exports:', exportUsage.size);
+
+    // Check utils.js specifically
+    for (const [filePath, usage] of exportUsage) {
+      if (filePath.includes('utils.js')) {
+        console.log('\nutils.js export usage:');
+        for (const [exportName, info] of Object.entries(usage)) {
+          console.log(`  - ${exportName}: imported by ${info.importedBy.length} modules`);
+          if (info.importedBy.length > 0) {
+            info.importedBy.forEach(imp => {
+              console.log(`    <- ${path.basename(imp.source)}`);
+            });
+          }
+        }
+      }
+    }
+
+  console.log('\nTotal unused exports found:', unusedExports.length);
+  console.log('Unused exports:', unusedExports.map(e => 
+    `${path.basename(e.module)}:${e.exportName}`
+  ).join(', '));
+  console.log('=== END DEBUG ===\n');
   
       // Get project root
       const projectRoot = this.findProjectRoot();
@@ -125,9 +150,12 @@ class ExportUsageAnalyzer {
         // Merge the original data with classification
         return {
           ...miss,
-          ...classification,
-          source: miss.source, // Keep original source (the importing module)
-          missingExport: miss.missingExport // Keep the missing export name
+          classification: 'likely-problematic',
+          confidence: 1.0, // High confidence - we know the export doesn't exist
+          score: -10,
+          reasons: ['export-does-not-exist'],
+          suggestions: [`Export '${miss.missingExport}' not found in ${path.basename(miss.targetModule)}`],
+          suggestion: `Add 'exports.${miss.missingExport}' to ${path.basename(miss.targetModule)} or fix the import`
         };
       });
       
@@ -136,7 +164,7 @@ class ExportUsageAnalyzer {
         unusedExports: classifiedUnusedExports,
         missingExports: classifiedMissingExports
       };
-    }
+    } 
     
     findProjectRoot() {
       // Find the root by looking for package.json

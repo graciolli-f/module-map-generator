@@ -6,7 +6,10 @@
     "scripts": {
       "scan": "node src/walker.js",
       "analyze": "node src/analyze.js",
-      "generate:report": "node src/generate-report.js"
+      "generate:report": "node src/generate-report.js",
+      "ai": "node src/generate-ai-context.js",
+      "graph": "node src/generate-graph.js",
+      "rubric": "node src/generate-rubric.js"
     },
   "dependencies": {
     "@babel/parser": "^7.23.0",

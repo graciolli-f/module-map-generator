@@ -5,3 +5,5 @@ node_modules/
 module-map.json
 progress/
 dependency-analysis.json
+test-exports/
+old/
